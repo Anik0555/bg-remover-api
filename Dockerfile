@@ -30,5 +30,5 @@ COPY main.py /app/
 # Expose FastAPI listening port
 EXPOSE 8000
 
-# Start server with production-ready settings
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Start server with dynamic port support for Render
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1"]
