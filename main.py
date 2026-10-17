@@ -30,9 +30,10 @@ ml_models = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
-    Load IS-Net model globally once on server startup to eliminate cold starts.
+    Load lightweight u2netp model globally once on server startup to eliminate cold starts
+    and stay well within Render's 512MB RAM limit.
     """
-    model_name = "isnet-generaluse"
+    model_name = "u2netp"
     logger.info(f"Initializing global rembg session with model: '{model_name}'...")
     try:
         # Pre-warm session into global state
@@ -165,7 +166,7 @@ async def remove_background(
     ),
 ):
     """
-    Cuts the portrait background using IS-Net deep alpha matting.
+    Cuts the portrait background using deep alpha matting.
     - If `color` is supplied, returns a maximum quality (`quality=100`) JPEG.
     - If `color` is omitted, returns an uncompressed, lossless RGBA PNG.
     """
